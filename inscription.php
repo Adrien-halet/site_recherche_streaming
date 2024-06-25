@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Récupérer et valider les données du formulaire
     try {
-        $conn = new PDO("mysql:host$servername,$dbname", $username, $password_db);
+        $conn = new PDO("mysql:host$servername;$dbname", $username, $password_db);
     // $UserID, $nom, $prenom, $age, $email, $password, $confirm_password);
         $conn->setAttribute (PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         // echo "la connexion à bien été établie";
@@ -43,15 +43,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $sql = "INSERT INTO 'users'('UserID', 'nom', 'prenom', 'age', 'email', 'password') VALUES ('[value-1]','[value-2]','[value-3]','[value-4]','[value-5]','[value-6]')";
         $stmt = $conn->prepare($sql);
 
+        $password_hashed = password_hash($password, PASSWORD_DEFAULT);
+
+        stmt->bindParam(':UserID, $UserID');
         stmt->bindParam(':nom, $nom');
         stmt->bindParam(':prenom, $prenom');
         stmt->bindParam(':age, $age');
         stmt->bindParam(':email, $email');
         stmt->bindParam(':password, $password');
         stmt->bindParam(':confirm_password, $confirm_password');
-            stmt->execute();
+            if ($stmt->execute()) {
+            echo "<p>Inscription réussie!</p>";
+        } else {
+            echo "<p>Erreur: " . $stmt->error . "</p>";
+        }
+
     }
 
+// Zone à exclure 
+
+    
     // if (empty($errors)) {
 
     //     // Créer une connexion
@@ -82,6 +93,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //         echo "<p style='color: red;'>$error</p>";
     //     }
     // }
+
+    // Fin de la zone à exclure
 }
 ?>
     <form action="inscription.php" method="post">
