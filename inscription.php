@@ -15,86 +15,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Établir une connexion à la base de données
     $servername = "localhost";
+    $dbname = "site_recherche_streaming";
     $username = "root"; // Par défaut sur XAMPP
     $password_db = ""; // Par défaut sur XAMPP
-    $dbname = "site_recherche_streaming";
+    $nom = "nom";
+    $prenom = "prenom";
+    $age = "age";
+    $email = "email";
+    $password = "password";
 
+    if (isset($_POST['envoyer']))
+    {
 
     // Récupérer et valider les données du formulaire
     try {
-        $conn = new PDO("mysql:host$servername;$dbname", $username, $password_db);
-    // $UserID, $nom, $prenom, $age, $email, $password, $confirm_password);
+        
+        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password_db);
         $conn->setAttribute (PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         // echo "la connexion à bien été établie";
     }
     catch (PDOException $e){
-        echo "la connexion à échoué:" . $e->getMessage();
+        echo "la connexion à échoué:", $e->getMessage();
     }
-    if (isset($_POST['envoyer']))
-    {
-        $UserID = $_POST['UserID'];
+
         $nom = $_POST['nom'];
         $prenom = $_POST['prenom'];
-        $age = $_POST['age'];     
+        $age = $_POST['age'];
         $email = $_POST['email'];
         $password = $_POST['password'];
-        $confirm_password = $_POST['confirm_password'];
 
-        $sql = "INSERT INTO 'users'('UserID', 'nom', 'prenom', 'age', 'email', 'password') VALUES ('[value-1]','[value-2]','[value-3]','[value-4]','[value-5]','[value-6]')";
+        $sql = "INSERT INTO users (UserID, nom, prenom, age, email, password) VALUES (:UserID, :nom, :prenom, :age, :email, :password)";
         $stmt = $conn->prepare($sql);
 
         $password_hashed = password_hash($password, PASSWORD_DEFAULT);
 
-        stmt->bindParam(':UserID, $UserID');
-        stmt->bindParam(':nom, $nom');
-        stmt->bindParam(':prenom, $prenom');
-        stmt->bindParam(':age, $age');
-        stmt->bindParam(':email, $email');
-        stmt->bindParam(':password, $password');
-        stmt->bindParam(':confirm_password, $confirm_password');
-            if ($stmt->execute()) {
+        $stmt->bindParam(':UserID', $UserID);
+        $stmt->bindParam(':nom', $nom);
+        $stmt->bindParam(':prenom', $prenom);
+        $stmt->bindParam(':age', $age);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':password', $password);
+        // $stmt->bindParam(':confirm_password', $confirm_password);
+        $stmt->execute();
+
+        if ($stmt->execute()) {
             echo "<p>Inscription réussie!</p>";
         } else {
             echo "<p>Erreur: " . $stmt->error . "</p>";
         }
-
     }
 
-// Zone à exclure 
-
-    
-    // if (empty($errors)) {
-
-    //     // Créer une connexion
-    //     $conn = new mysqli($servername, $username, $password_db, $dbname);
-
-    //     // Vérifier la connexion
-    //     if ($conn->connect_error) {
-    //         die("Connexion échouée: " . $conn->connect_error);
-    //     }
-
-    //     // Hacher le mot de passe
-    //     $password_hashed = password_hash($password, PASSWORD_DEFAULT);
-
-    //     // Préparer et lier
-    //     $stmt = $conn->prepare("INSERT INTO site_recherche_streaming (Nom, Prénom, Age, Email, Password) VALUES (?, ?, ?, ?, ?)");
-    //     $stmt->bind_param("sssss", $nom, $prenom, $age, $email, $password_hashed);
-
-    //     if ($stmt->execute()) {
-    //         echo "<p>Inscription réussie!</p>";
-    //     } else {
-    //         echo "<p>Erreur: " . $stmt->error . "</p>";
-    //     }
-
-    //     $stmt->close();
-    //     $conn->close();
-    // } else {
-    //     foreach ($errors as $error) {
-    //         echo "<p style='color: red;'>$error</p>";
-    //     }
-    // }
-
-    // Fin de la zone à exclure
 }
 ?>
     <form action="inscription.php" method="post">
