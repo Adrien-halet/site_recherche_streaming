@@ -1,0 +1,79 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #8c5d5d;
+}
+
+.auth-container {
+    background: linear-gradient(135deg, #8c5d5d, #ff0000);
+    border-radius: 10px;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 300px;
+}
+
+.nom_site {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.auth-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.auth-button {
+    background-color: #5c84d0;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+.auth-button a {
+    text-decoration: none;
+}
+
+.separator {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    margin: 10px 0;
+}
+
+.separator:before,
+.separator:after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: white;
+}
+
+.forgot-password {
+    margin: 20px 0;
+}
+
+.forgot-password a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: white;
+    font-size: 14px;
+}
